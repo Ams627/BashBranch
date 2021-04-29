@@ -1,0 +1,54 @@
+= BashBranch: show the current git branch in the git-bash title bar
+
+We wish to show the git branch in the git-bash window (mintty) title bar.
+
+We could to this by running commands in the PS1 prompt, but this can be slow: especially 
+if an anti-virus is checking every command we run. [We note that the git branch 
+can, and regularly does, change depending on the current bash directory].
+
+Similarly we could do something on every CD command by aliasing cd or making 
+cd a shell function. This suffers from the same drawbacks however, and since
+cd is a very common command, we want it to retain its speed.
+
+A suitable approach is to have an external program inspecting the current directory
+of all running bash processes and setting the mintty title for each bash process we find.
+There are two problems with this:
+
+1. Permissions. It may not be possible to inspect the current directory of another process.
+2. The link between a bash process and a mintty process.
+
+The first problem cannot be solved - if you do not have local admin rights, it is unlikely
+this approach will work.
+
+However, if you do have local admin rights, then the second problem can be used by 
+using bash's $PPID variable in .bashrc.
+
+== mintty
+
+git-bash typically runs inside a mintty terminal window. The challenge is to find two pieces of information:
+
+1. for any bash
+
+
+== Getting the parent process ID of a process
+
+For this we use `NtQueryInformationHandle` for which we need to use `DllImport`.
+
+=== 64 or 32 bits?
+
+32 bit programs run on 64 bit Windows using an emulation layer called WOW64 (Windows on Windows 64).
+The Win32 API function `IsWow64Process` can be used to test if a process is a normal 64 bit process
+on 64 bit Windows or if it is running in the WOW64 emulation system.
+
+A process running on 32-bit Windows is NEVER a WOW64 process.
+
+
+=== Unique to bash
+
+Bash is a program running under Cygwin and as such, the parent process ID read using the above techniques
+is not the same as the Windows PID for bash.
+
+The easiest way to obtain the Windows PID for bash is to get bash to write it somewhere.
+
+
+
