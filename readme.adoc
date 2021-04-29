@@ -2,13 +2,13 @@
 
 We wish to show the git branch in the git-bash window (mintty) title bar.
 
-We could to this by running commands in the PS1 prompt, but this can be slow: especially 
+We could to this by running commands in the `PS1` prompt, but this can be slow: especially 
 if an anti-virus is checking every command we run. [We note that the git branch 
 can, and regularly does, change depending on the current bash directory].
 
-Similarly we could do something on every CD command by aliasing cd or making 
-cd a shell function. This suffers from the same drawbacks however, and since
-cd is a very common command, we want it to retain its speed.
+Similarly we could do something on every `cd` command by aliasing `cd` or making 
+`cd` a shell function. This suffers from the same drawbacks however, and since
+`cd` is a very common command, we want it to retain its speed.
 
 A suitable approach is to have an external program inspecting the current directory
 of all running bash processes and setting the mintty title for each bash process we find.
@@ -21,7 +21,7 @@ The first problem cannot be solved - if you do not have local admin rights, it i
 this approach will work.
 
 However, if you do have local admin rights, then the second problem can be used by 
-using bash's $PPID variable in .bashrc.
+using bash's `$PPID` variable in `.bashrc`.
 
 == mintty
 
